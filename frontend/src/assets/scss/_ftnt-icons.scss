@@ -1,0 +1,25 @@
+
+
+@font-face {
+    font-family: "ftnt-icons";
+    src: url("assets/fonts/ftnt-icons.woff") format("woff");
+  }
+
+[class^="ftnt-"], [class*=" ftnt-"] {
+    font-family: "ftnt-icons";
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+}
+.ftnt-address-ipv4:before {
+    content: '\EA08';
+}
+
+.ftnt-fortiswitch:before {
+    content: '\EA60';
+}
+
+.ftnt-interface-rj45:before {
+    content: '\EA7C'
+}

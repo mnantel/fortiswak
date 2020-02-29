@@ -3,10 +3,11 @@ package main
 import (
 	"crypto/tls"
 	"encoding/json"
-	"fmg"
 	"fmt"
 	"log"
 	"net/http"
+
+	fmg "github.com/mnantel/gofmg"
 )
 
 var (

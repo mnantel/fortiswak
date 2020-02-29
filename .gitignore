@@ -1,3 +1,4 @@
 node_modules/
 docker/
 FORTISWAK.code-workspace
+Dockerfile

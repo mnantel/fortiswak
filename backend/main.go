@@ -1,16 +1,9 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
-
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/gorilla/mux"
 	bolt "go.etcd.io/bbolt"
@@ -20,22 +13,9 @@ const (
 	RUNINTERVAL = 30 // Default run interval in seconds for pollers
 )
 
-var conf Config
-var dbconf *mongo.Collection
-var dbcache *mongo.Collection
-var ctx context.Context
-
-// var mongo *mgo.Session
-
 var db *bolt.DB
 
 func main() {
-
-	ctx, _ = context.WithTimeout(context.Background(), 10*time.Second)
-	dbclient, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-	dbconf = dbclient.Database("fortiswak").Collection("conf")
-	dbcache = dbclient.Database("fortiswak").Collection("cache")
-	defer dbclient.Disconnect(ctx)
 
 	dbpt, err := setupDB()
 	if err != nil {
@@ -44,17 +24,6 @@ func main() {
 	db = dbpt
 	defer db.Close()
 
-	log.Println("PBRPortal: Loading config.json")
-	jsonFile, err := os.Open("config.json")
-	if err != nil {
-		panic(err)
-	}
-	defer jsonFile.Close()
-	jsonBytes, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(jsonBytes, &conf)
-	if err != nil {
-		panic(err)
-	}
 	router := mux.NewRouter()
 
 	router.Use(loggingMiddleware)
@@ -76,8 +45,8 @@ func main() {
 	go runPollers()
 
 	// Start web server
-	log.Printf("PBRPortal: Starting server, hostname: %s port:%s\r\n", conf.FE.Hostname, conf.FE.Port)
-	log.Fatal(http.ListenAndServe(":"+conf.FE.Port, router))
+	log.Printf("PBRPortal: Starting server, hostname: %s port:%s\r\n", "localhost", "4000")
+	log.Fatal(http.ListenAndServe(":"+"4000", router))
 
 }
 
